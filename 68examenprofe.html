@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body{
+        margin:30px 40px 40px 40px;
+        background-color:#f2f2f2 ;
+      }
+      header{
+        height:50px;
+        display:flex;
+        flex-direction:row;
+        align-items: center;
+        justify-content:space-between;
+      }
+      section{
+        height: calc(100vh - 120px);
+        display:flex;
+      }
+      section>div.lane{
+        flex-grow:1;
+        flex-basis:0;
+      }
+      section>div.lane:nth-child(2){
+        margin:0px 40px;
+      }
+      .Titles{
+        line-height:10px;
+        padding: 10px 0px 5px 0px;
+        display:flex;
+        flex-direction:row;
+        justify-content:space-between;
+      }
+      .tasks{
+        overflow-y: scroll;
+        background-color:white;
+        position:relative;
+        height:calc(100% - 45px);
+        padding:10px;
+      }
+      .overflow{
+        height: 100%;
+        overflow-y: scroll;
+      }
+      .task1{
+        background-color:#ffe0b9;
+        margin-bottom:10px;
+        padding:10px;
+      }
+      .task2{
+        background-color:#e7f9ff;
+        margin-bottom:10px;
+        padding:10px;
+      }
+      .task3{
+        background-color:#f5ffe7;
+        margin-bottom:10px;
+        padding:10px;
+      }
+      .relleno{
+        margin-bottom:10px;
+        padding:10px;
+      }
+      .task1 button{
+        float:right;
+      }
+      .task2 button{
+        float:right;
+      }
+      .task3 button{
+        float:right;
+      }
+      .task1 h4{
+        font-family: 'Montserrat';
+        font-weight: bold;
+        font-size:16px;
+        color:#a23600;
+      }
+      .task1 p{
+        font-family: 'Montserrat';
+        font-size:14px;
+        color:#a23600;
+      }
+      .task1 button{
+        width:125px;
+        background-color:#003c5c;
+        color:white;
+        padding-top: 6.5px;
+        padding-bottom: 6.5px;
+        border:none;
+      }
+      .task2 h4{
+        font-family: 'Montserrat';
+        font-weight: bold;
+        font-size:16px;
+        color:#003c5c;
+      }
+      .task2 p{
+        font-family: 'Montserrat';
+        font-size:14px;
+        color:#003c5c;
+      }
+      .task2 button{
+        width:125px;
+        background-color:#00a240;
+        color:white;
+        padding-top: 6.5px;
+        padding-bottom: 6.5px;
+        border:none;
+      }
+      .task3 h4{
+        font-family: 'Montserrat';
+        font-weight: bold;
+        font-size:16px;
+        color:#355c00;
+      }
+      .task3 p{
+        font-family: 'Montserrat';
+        font-size:14px;
+        color:#355c00;
+      }
+      .task2 button{
+        float:right;
+      }
+      .task3 button{
+        float:right;
+      }
+      .clear{
+        clear:both;
+      }
+      .lane.done .task button{
+        display:none;
+      }
+      p{
+        margin:0px;
+        padding:0px;
+      }
+      h4{
+        margin:0px;
+        padding:0px;
+      }
+      #Final{
+        position:absolute;
+        bottom: 10px;
+        right:10px;
+        left:10px;
+        margin-top:10px;
+        width: calc(100% - 20px);
+        height: 30px;
+        background-color: #606060;
+        border:none;
+        font-family: 'Montserrat';
+        color:white;
+        font-size:16px;
+      }
+      #mySprint{
+        font-family: 'Montserrat';
+        font-weight:bold;
+        font-size: 32px;
+        color:black;
+      }
+      #newAct{
+        font-family: 'Montserrat';
+        background-color: #0083e7;
+        color:white;
+        font-size:16px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 16px;
+        padding-bottom:16px;
+        border:none;
+      }
+      .Titles> span{
+        font-family: 'Montserrat';
+        font-size:16px;
+        color:#666666;
+      }
+      .form-popup {
+        display:none;
+        width: 30%;
+        background-color: white;
+        position: fixed;
+        top: 30px;
+        right: 40px;
+        z-index: 9;
+        padding: 10px 10px 10px 10px;
+      }
+      #close{
+        border:none;
+        margin-top:10px;
+        height:30px;
+        font-size: 16px;
+        color:white;
+        background-color: red;
+      }
+      #send{
+        border:none;
+        margin-top:10px;
+        height:30px;
+        font-size: 16px;
+        color:white;
+        background-color: #0083e7;
+      }
+      .form-popup *{
+        width: 100%;
+      }
+      .form-popup input[type=text], .form-popup input[type=number] {
+        width: 100%;
+        padding: 10px 0px 10px 0px;
+
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="form-popup">
+      <h2>Create new task.</h2>
+      <h4><label for="snumber">Student number:</label></h4>
+      <input type="number" placeholder="Enter student number" name="snumber" required>
+        <h4><label for="titulo">Title:</label></h4>
+        <input type="text" placeholder="Enter task title" name="titulo" required>
+        <h4><label for="titulo">Description:</label></h4>
+        <input type="text" placeholder="Enter task description" name="descripcion" required>
+        <button type="button" id="send">Send</button>
+        <button type="button" id="close">Close</button>
+    </form>
+    <header>
+      <span id="mySprint">My sprint</span>
+      <button id="newAct">Create new activity</button>
+    </header>
+    <section>
+      <div class="lane">
+        <div class="Titles">
+          <span>To Do</span>
+          <span id="todospan">0 Tasks</span>
+        </div>
+        <div class="tasks">
+        </div>
+      </div>
+      <div class="lane">
+        <div class="Titles">
+          <span>In Progress</span>
+          <span id="progressspan">0 Tasks</span>
+        </div>
+        <div class="tasks">
+
+        </div>
+      </div>
+      <div class="lane">
+        <div class="Titles">
+          <span>Done</span>
+          <span id="donespan">0 Tasks</span>
+        </div>
+        <div class="tasks">
+      <div class="overflow">
+          <div class="relleno"></div>
+        </div>
+            <button id="Final">Clear this list</button>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script type="text/javascript">
+  var create=document.getElementById("newAct");
+  var close= document.getElementById("close");
+  var send=document.getElementById("send");
+  var finalbtn=document.getElementById("Final");
+  var totaltodo=0;
+  var totalprogress=0;
+  var totaldone=0;
+  var todospan=document.getElementById("todospan");
+  var progressspan=document.getElementById("progressspan");
+  var donespan=document.getElementById("donespan");
+  finalbtn.addEventListener('click',deleteTasks);
+  create.addEventListener('click',openForm);
+  close.addEventListener('click',closeForm);
+  send.addEventListener('click',getUserMessage);
+  getAllTasks();
+  function openForm() {
+    document.getElementsByClassName("form-popup")[0].style.display = "block";
+  }
+  function closeForm() {
+    document.getElementsByClassName("form-popup")[0].style.display = "none";
+  }
+  function getUserMessage(){
+      var snumber=document.getElementsByName("snumber")[0];
+      var titulo=document.getElementsByName("titulo")[0];
+      var descripcion=document.getElementsByName("descripcion")[0];
+      var task={
+        student_number:snumber.value,
+        name:titulo.value,
+        description:descripcion.value
+      };
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 201){
+          var response = JSON.parse(this.responseText);
+          console.log(response);
+          if(response.stauts=="ok"){
+            console.log('User successfully created');
+            snumber.value='';
+            titulo.value='';
+            descripcion.value='';
+            createVTask('task1',task.name, task.description,response.data.task);
+            totaltodo=totaltodo+1;
+            if(totaltodo==1){
+              todospan.innerHTML=totaltodo+" Task.";
+            }
+            else{
+              todospan.innerHTML=totaltodo+" Tasks.";
+            }
+          }
+          else{
+            console.log("Error: "+response.messages);
+          }
+        }
+      };
+      xhttp.open("POST",
+      "http://nyc.pixan.io/lanes/public/api/tasks",true);
+      xhttp.setRequestHeader("Content-Type","application/json");
+      xhttp.send(JSON.stringify(task));
+  }
+  function createVTask(type,titulo,descripcion,obj){
+      var div=document.createElement("div");
+      div.setAttribute('class',type);
+      var h4=document.createElement("h4");
+      var title=document.createTextNode(titulo);
+      h4.appendChild(title);
+      var p=document.createElement("p");
+      var description=document.createTextNode(descripcion);
+      p.appendChild(description);
+      div.appendChild(h4);
+      div.appendChild(p);
+      if(type==='task1'){
+        var button=document.createElement("button");
+        var buttonText=document.createTextNode("In Progress");
+        button.appendChild(buttonText);
+        div.appendChild(button);
+        var divclear=document.createElement("div");
+        divclear.setAttribute("class", "clear");
+        div.appendChild(divclear);
+        var lane=document.getElementsByClassName("tasks")[0];
+        lane.prepend(div);
+        button.addEventListener('click',moveTask(obj,div,'task1'));
+      }
+      else if(type==='task2'){
+        var button=document.createElement("button");
+        var buttonText=document.createTextNode("Done");
+        button.appendChild(buttonText);
+        div.appendChild(button);
+        var divclear=document.createElement("div");
+        divclear.setAttribute("class","clear");
+        div.appendChild(divclear);
+        var lane=document.getElementsByClassName("tasks")[1];
+        lane.prepend(div);
+        button.addEventListener('click',moveTask(obj,div,'task2'));
+      }
+      else if(type==='task3'){
+        var lane=document.getElementsByClassName("overflow")[0];
+        lane.prepend(div);
+      }
+  }
+  function getAllTasks(){
+    getToDoTasks();
+    getInProgressTasks();
+    getDoneTasks();
+  }
+  function getToDoTasks(){
+      var xhttp=new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+          var response = JSON.parse(this.responseText);
+          console.log(response);
+          if(response.stauts=="ok"){
+            totaltodo=response.data.tasks.length;
+
+            if(totaltodo==1){
+              todospan.innerHTML=totaltodo+" Task.";
+            }
+            else{
+              todospan.innerHTML=totaltodo+" Tasks.";
+            }
+            for(var i=(totaltodo-1);i>=0;i--){
+              createVTask('task1',response.data.tasks[i].name, response.data.tasks[i].description,response.data.tasks[i]);
+            }
+          }
+          else{
+            console.log("Error: "+response.messages);
+          }
+        }
+      };
+      xhttp.open("GET","http://nyc.pixan.io/lanes/public/api/tasks?student_number=2515744&status=1",true);
+      xhttp.setRequestHeader("Content-Type","application/json");
+      xhttp.send();
+  }
+  function getInProgressTasks(){
+      var xhttp=new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+          var response = JSON.parse(this.responseText);
+          console.log(response);
+          if(response.stauts=="ok"){
+            totalprogress=response.data.tasks.length;
+
+            if(totalprogress==1){
+              progressspan.innerHTML=totalprogress+" Task.";
+            }
+            else{
+              progressspan.innerHTML=totalprogress+" Tasks.";
+            }
+            for(var i=(totalprogress-1);i>=0;i--){
+              createVTask('task2',response.data.tasks[i].name, response.data.tasks[i].description,response.data.tasks[i]);
+            }
+          }
+          else{
+            console.log("Error: "+response.messages);
+          }
+        }
+      };
+      xhttp.open("GET","http://nyc.pixan.io/lanes/public/api/tasks?student_number=2515744&status=2",true);
+      xhttp.send();
+  }
+  function getDoneTasks(){
+      var xhttp=new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+          var response = JSON.parse(this.responseText);
+          console.log(response);
+          if(response.stauts=="ok"){
+            totaldone=response.data.tasks.length;
+
+            if(totaldone==1){
+              donespan.innerHTML=totaldone+" Task.";
+            }
+            else{
+              donespan.innerHTML=totaldone+" Tasks.";
+            }
+            for(var i=(totaldone-1);i>=0;i--){
+              createVTask('task3',response.data.tasks[i].name, response.data.tasks[i].description,response.data.tasks[i]);
+            }
+          }
+          else{
+            console.log("Error: "+response.messages);
+          }
+        }
+      };
+      xhttp.open("GET","http://nyc.pixan.io/lanes/public/api/tasks?student_number=2515744&status=3",true);
+      xhttp.setRequestHeader("Content-Type","application/json");
+      xhttp.send();
+  }
+  function moveTask(obj,div,type){
+    return function(){
+      var stat=0;
+      if(type=='task1'){
+        stat=2;
+      }
+      else if(type=='task2'){
+        stat=3;
+      }
+      var xhttp=new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+          var response = JSON.parse(this.responseText);
+          console.log(response);
+          if(response.stauts=="ok"){
+            console.log('Task successfully moved.');
+            if(type=='task1'){
+              div.outerHTML="";
+              createVTask('task2',obj.name, obj.description,obj);
+              totaltodo=totaltodo-1;
+              totalprogress=totalprogress+1;
+              if(totaltodo==1){
+                todospan.innerHTML=totaltodo+" Task.";
+              }
+              else{
+                todospan.innerHTML=totaltodo+" Tasks.";
+              }
+              if(totalprogress==1){
+                progressspan.innerHTML=totalprogress+" Task.";
+              }
+              else{
+                progressspan.innerHTML=totalprogress+" Tasks.";
+              }
+            }
+            else if(type=='task2'){
+              div.outerHTML="";
+              createVTask('task3',obj.name, obj.description,obj);
+              totalprogress=totalprogress-1;
+              totaldone=totaldone+1;
+              if(totalprogress==1){
+                progressspan.innerHTML=totalprogress+" Task.";
+              }
+              else{
+                progressspan.innerHTML=totalprogress+" Tasks.";
+              }
+              if(totaldone==1){
+                donespan.innerHTML=totaldone+" Task.";
+              }
+              else{
+                donespan.innerHTML=totaldone+" Tasks.";
+              }
+            }
+          }
+          else{
+            console.log("Error: "+response.messages);
+          }
+        }
+      };
+      console.log(stat);
+      xhttp.open("PUT",
+      "http://nyc.pixan.io/lanes/public/api/tasks/"+obj.id+"?status="+stat+"&student_number="+"2515744",true);
+      xhttp.send();
+    }
+  }
+  function deleteTasks(){
+    var xhttp=new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200){
+        var response = JSON.parse(this.responseText);
+        console.log(response);
+        if(response.stauts=="ok"){
+          console.log('Tasks successfully removed.');
+          var el = document.getElementsByClassName('overflow')[0];
+          while ( el.firstChild ) el.removeChild( el.firstChild );
+          totaldone=0;
+          donespan.innerHTML=totaldone+" Tasks.";
+        }
+        else{
+          console.log("Error: "+response.messages);
+        }
+      }
+    };
+    xhttp.open("DELETE",
+    "http://nyc.pixan.io/lanes/public/api/tasks?student_number="+"2515744",true);
+    xhttp.send();
+  }
+  </script>
+</html>
